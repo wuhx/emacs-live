@@ -3,6 +3,22 @@
 ;; This is where everything starts. Do you remember this place?
 ;; It remembers you...
 
+;; add external packeages
+(require 'package)
+
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/"))
+
+(package-initialize)
+(when (not package-archive-contents)
+  (package-refresh-contents))
+ 
+(defvar my-packages '(evil)) 
+
+(dolist (p my-packages)
+  (when (not (package-installed-p p))
+    (package-install p)))
+
 (add-to-list 'command-switch-alist
              (cons "--live-safe-mode"
                    (lambda (switch)
@@ -14,84 +30,14 @@
         nil))
 
 (setq initial-scratch-message "
-;; I'm sorry, Emacs Live failed to start correctly.
-;; Hopefully the issue will be simple to resolve.
-;;
-;; First up, could you try running Emacs Live in safe mode:
-;;
+;; Emacs Live failed to start correctly. Please try
 ;;    emacs --live-safe-mode
-;;
-;; This will only load the default packs. If the error no longer occurs
-;; then the problem is probably in a pack that you are loading yourself.
-;; If the problem still exists, it may be a bug in Emacs Live itself.
-;;
-;; In either case, you should try starting Emacs in debug mode to get
-;; more information regarding the error:
-;;
 ;;    emacs --debug-init
-;;
-;; Please feel free to raise an issue on the Gihub tracker:
-;;
-;;    https://github.com/overtone/emacs-live/issues
-;;
-;; Alternatively, let us know in the mailing list:
-;;
-;;    http://groups.google.com/group/emacs-live
-;;
-;; Good luck, and thanks for using Emacs Live!
-;;
-;;                _.-^^---....,,--
-;;            _--                  --_
-;;           <          SONIC         >)
-;;           |       BOOOOOOOOM!       |
-;;            \._                   _./
-;;               ```--. . , ; .--'''
-;;                     | |   |
-;;                  .-=||  | |=-.
-;;                  `-=#$%&%$#=-'
-;;                     | ;  :|
-;;            _____.,-#%&$@%#&#~,._____
-;;      May these instructions help you raise
-;;                  Emacs Live
-;;                from the ashes
 ")
 
 (setq live-supported-emacsp t)
 
-(when (< emacs-major-version 24)
-  (setq live-supported-emacsp nil)
-  (setq initial-scratch-message (concat "
-;;                _.-^^---....,,--
-;;            _--                  --_
-;;           <          SONIC         >)
-;;           |       BOOOOOOOOM!       |
-;;            \._                   _./
-;;               ```--. . , ; .--'''
-;;                     | |   |
-;;                  .-=||  | |=-.
-;;                  `-=#$%&%$#=-'
-;;                     | ;  :|
-;;            _____.,-#%&$@%#&#~,._____
-;;
-;; I'm sorry, Emacs Live is only supported on Emacs 24+.
-;;
-;; You are running: " emacs-version "
-;;
-;; Please upgrade your Emacs for full compatibility.
-;;
-;; Latest versions of Emacs can be found here:
-;;
-;; OS X GUI     - http://emacsformacosx.com/
-;; OS X Console - via homebrew (http://mxcl.github.com/homebrew/)
-;;                brew install emacs
-;; Windows      - http://alpha.gnu.org/gnu/emacs/windows/
-;; Linux        - Consult your package manager or compile from source
-
-"))
-  (let* ((old-file (concat (file-name-as-directory "~") ".emacs-old.el")))
-    (if (file-exists-p old-file)
-      (load-file old-file)
-      (error (concat "Oops - your emacs isn't supported. Emacs Live only works on Emacs 24+ and you're running version: " emacs-version ". Please upgrade your Emacs and try again, or define ~/.emacs-old.el for a fallback")))))
+;;not support emacs version old than 24
 
 (let ((emacs-live-directory (getenv "EMACS_LIVE_DIR")))
   (when emacs-live-directory
@@ -181,33 +127,7 @@
   (nth (random (length live-welcome-messages)) live-welcome-messages))
 
 (when live-supported-emacsp
-  (setq initial-scratch-message (concat ";;
-;;     MM\"\"\"\"\"\"\"\"`M
-;;     MM  mmmmmmmM
-;;     M`      MMMM 88d8b.d8b. .d8888b. .d8888b. .d8888b.
-;;     MM  MMMMMMMM 88''88'`88 88'  `88 88'  `\"\" Y8ooooo.
-;;     MM  MMMMMMMM 88  88  88 88.  .88 88.  ...       88
-;;     MM        .M dP  dP  dP `88888P8 '88888P' '88888P'
-;;     MMMMMMMMMMMM
-;;
-;;         M\"\"MMMMMMMM M\"\"M M\"\"MMMMM\"\"M MM\"\"\"\"\"\"\"\"`M
-;;         M  MMMMMMMM M  M M  MMMMM  M MM  mmmmmmmM
-;;         M  MMMMMMMM M  M M  MMMMP  M M`      MMMM
-;;         M  MMMMMMMM M  M M  MMMM' .M MM  MMMMMMMM
-;;         M  MMMMMMMM M  M M  MMP' .MM MM  MMMMMMMM
-;;         M         M M  M M     .dMMM MM        .M
-;;         MMMMMMMMMMM MMMM MMMMMMMMMMM MMMMMMMMMMMM  Version " live-version
-                                                                (if live-safe-modep
-                                                                    "
-;;                                                     --*SAFE MODE*--"
-                                                                  "
-;;"
-                                                                  ) "
-;;           http://github.com/overtone/emacs-live
-;;
-;; "                                                      (live-welcome-message) "
-
-")))
+  (setq initial-scratch-message ";;"))
 )
 
 (if (not live-disable-zone)
@@ -216,3 +136,7 @@
 (setq custom-file (concat live-custom-dir "custom-configuration.el"))
 (when (file-exists-p custom-file)
   (load custom-file))
+
+
+
+(load "~/.emacs.d/conf.el")

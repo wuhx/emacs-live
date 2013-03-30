@@ -22,13 +22,13 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;font
-(if window-system (
-(set-frame-font "Menlo-15")
-(set-fontset-font
-  (frame-parameter nil 'font)
-  'han
-  (font-spec :family "Hiragino Sans GB" ))
-))
+;(if window-system (
+;(set-frame-font "Menlo-15")
+;(set-fontset-font
+;  (frame-parameter nil 'font)
+;  'han
+;  (font-spec :family "Hiragino Sans GB" )))
+;)
 ;; etcetera...
 )
 

@@ -25,3 +25,4 @@ tmp/*
 .smex-items
 swank/*
 *.swp
+bookmarks

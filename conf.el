@@ -18,7 +18,7 @@
 (show-paren-mode t)
 ;(scroll-bar-mode -1) ;;scroll-bar.el
 (global-linum-mode t)
-;(setq linum-format "%-4d")
+(setq linum-format "%-2d")
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;font
@@ -54,3 +54,15 @@
 
 ;;evil mode
 (evil-mode 1)
+;;(require 'surround)
+;;(global-surround-mode 1)
+
+;;customize cursor color
+(add-to-list 'default-frame-alist '(cursor-color . "palegoldenrod"))
+;;customize font
+;(add-to-list 'default-frame-alist '(font . "PragmataPro 14"))
+
+;;shell alias config for emacs
+;alias emacsd='/Applications/Emacs.app/Contents/MacOS/Emacs --daemon'
+;alias demacs='emacsclient -e "(kill-emacs)"'
+;alias es='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c -n $1'
